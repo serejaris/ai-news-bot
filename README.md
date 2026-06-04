@@ -1,12 +1,13 @@
 # AI News Bot
 
-Локальный набор скиллов и материалов для пайплайна AI-исследований, написания и редактуры русскоязычных текстов.
+Статический блог и локальный набор скиллов для пайплайна AI-исследований, написания, редактуры и публикации русскоязычных текстов.
 
 Проект собирает три связанных процесса:
 
 - исследование AI-тем с приоритетом на сильные источники;
 - написание постов и объясняющих материалов для нетехнической аудитории;
 - редактура текста против нейрояза, канцелярита и лишних англицизмов.
+- верстка HTML-страниц новостей для GitHub Pages.
 
 ## Скиллы
 
@@ -52,6 +53,25 @@
 - заменяет ненужные англицизмы русскими альтернативами;
 - сохраняет смысл и делает текст понятным для нетехнической аудитории.
 
+### `news-html-layout`
+
+Путь: `.codex/skills/news-html-layout/SKILL.md`
+
+Скилл для верстки готовой новости в отдельную HTML-страницу. Использует Tailwind CDN, SEO-теги, Open Graph, Twitter meta и JSON-LD.
+
+Что делает:
+
+- превращает готовый текст в `news/<slug>-YYYY-MM-DD.html`;
+- добавляет canonical, description, robots и social meta;
+- не использует CSS-файлы, `<style>` и inline `style`;
+- проверяет, что страница работает как отдельная новость.
+
+### `subagent-news-site-pipeline`
+
+Путь: `.codex/skills/subagent-news-site-pipeline/SKILL.md`
+
+Скилл полного выпуска новости. Он явно требует отдельного субагента на каждом этапе: исследование, черновик, редактура, HTML-верстка, главная страница, публикация и браузерная проверка.
+
 ## Пайплайн
 
 ```mermaid
@@ -63,15 +83,20 @@ flowchart LR
     E --> F["Черновик поста"]
     F --> G["text-neurostyle-editor"]
     G --> H["Финальный пост в posts/"]
+    H --> I["news-html-layout"]
+    I --> J["HTML-страница новости"]
+    J --> K["Главная index.html"]
+    K --> L["GitHub Pages"]
 
     B -. "Habr, VC.ru, docs, GitHub, отчеты" .-> C
     E -. "Дата, лид, структура, сравнение с лидерами" .-> F
     G -. "Нейрояз, канцелярит, лишний английский" .-> H
+    I -. "Tailwind CDN, SEO, Open Graph, Twitter meta" .-> J
 
     classDef subagent fill:#fff3bf,stroke:#f08c00,stroke-width:2px,color:#3b2f00;
     classDef artifact fill:#e7f5ff,stroke:#1c7ed6,stroke-width:1px,color:#102a43;
-    class B,E,G subagent;
-    class C,D,F,H artifact;
+    class B,E,G,I subagent;
+    class C,D,F,H,J,K,L artifact;
 ```
 
 ## Структура проекта
@@ -79,8 +104,13 @@ flowchart LR
 ```text
 .codex/skills/
   ai-topic-research/
+  news-html-layout/
+  subagent-news-site-pipeline/
   text-writing-pipeline/
   text-neurostyle-editor/
+
+news/
+  *.html
 
 research/
   *.md
@@ -96,6 +126,8 @@ posts/
 3. Написать черновик поста через `text-writing-pipeline`.
 4. Отредактировать черновик через `text-neurostyle-editor`.
 5. Сохранить финальный текст в `posts/`.
+6. Сверстать HTML-страницу через `news-html-layout`.
+7. Проверить сайт и опубликовать через GitHub Pages.
 
 ## Текущие материалы
 
@@ -103,3 +135,5 @@ posts/
 - `research/free-vibe-coding-models-tools-2026-06-04.md`
 - `posts/hermes-openclaw-business-agents-2026-06-04.md`
 - `posts/free-vibe-coding-tools-2026-06-04.md`
+- `news/hermes-openclaw-business-agents-2026-06-04.html`
+- `news/free-vibe-coding-tools-2026-06-04.html`
