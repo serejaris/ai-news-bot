@@ -55,7 +55,7 @@
 ## Пайплайн
 
 ```mermaid
-flowchart TD
+flowchart LR
     A["Тема или исходный материал"] --> B["ai-topic-research"]
     B --> C["Отчет в research/"]
     C --> D["Факт-лист: главный факт, контекст, ограничения"]
@@ -67,6 +67,11 @@ flowchart TD
     B -. "Habr, VC.ru, docs, GitHub, отчеты" .-> C
     E -. "Дата, лид, структура, сравнение с лидерами" .-> F
     G -. "Нейрояз, канцелярит, лишний английский" .-> H
+
+    classDef subagent fill:#fff3bf,stroke:#f08c00,stroke-width:2px,color:#3b2f00;
+    classDef artifact fill:#e7f5ff,stroke:#1c7ed6,stroke-width:1px,color:#102a43;
+    class B,E,G subagent;
+    class C,D,F,H artifact;
 ```
 
 ## Структура проекта
